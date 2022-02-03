@@ -1,0 +1,36 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "check": "npm run typecheck && npm run lint",
+    "lint": "eslint --ext .ts,.tsx,.js,.jsx src",
+    "lint-fix": "npm run lint -- --fix",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.0.3",
+    "@mui/material": "^5.0.3",
+    "is-hotkey": "^0.2.0",
+    "next": "11.1.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-use-websocket": "^2.9.1",
+    "slate": "^0.66.5",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.66.4",
+    "swr": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "17.0.27",
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2",
+    "http-proxy-middleware": "^2.0.1",
+    "typescript": "4.4.3"
+  }
+}
