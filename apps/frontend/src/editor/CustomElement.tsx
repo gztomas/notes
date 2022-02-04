@@ -1,36 +1,39 @@
-import React from 'react'
-import { BaseElement } from 'slate'
-import { RenderElementProps } from 'slate-react'
+import { BaseElement } from "slate";
 
-export enum CustomElementType {
-  blockQuote = 'block-quote',
-  bulletedList = 'bulleted-list',
-  headingOne = 'heading-one',
-  headingTwo = 'heading-two',
-  listItem = 'list-item',
-  numberedList = 'numbered-list',
-  paragraph = 'paragraph',
+interface ParagraphElement extends BaseElement {
+  type: "paragraph";
+}
+interface Heading1Element extends BaseElement {
+  type: "heading1";
+}
+interface Heading2Element extends BaseElement {
+  type: "heading2";
+}
+interface BlockQuoteElement extends BaseElement {
+  type: "blockQuote";
+}
+interface UnorderedListElement extends BaseElement {
+  type: "unorderedList";
+}
+interface OrderedListElement extends BaseElement {
+  type: "orderedList";
+}
+interface ListItemElement extends BaseElement {
+  type: "listItem";
+}
+interface LinkElement extends BaseElement {
+  type: "link";
+  href: string | null;
 }
 
-export interface CustomElement extends BaseElement {
-  type: CustomElementType
-}
+export type CustomElement =
+  | ParagraphElement
+  | Heading1Element
+  | Heading2Element
+  | BlockQuoteElement
+  | UnorderedListElement
+  | OrderedListElement
+  | ListItemElement
+  | LinkElement;
 
-export const CustomElement: React.FC<RenderElementProps> = ({ attributes, children, element }) => {
-  switch (element.type) {
-    case CustomElementType.blockQuote:
-      return <blockquote {...attributes}>{children}</blockquote>
-    case CustomElementType.bulletedList:
-      return <ul {...attributes}>{children}</ul>
-    case CustomElementType.headingOne:
-      return <h1 {...attributes}>{children}</h1>
-    case CustomElementType.headingTwo:
-      return <h2 {...attributes}>{children}</h2>
-    case CustomElementType.listItem:
-      return <li {...attributes}>{children}</li>
-    case CustomElementType.numberedList:
-      return <ol {...attributes}>{children}</ol>
-    default:
-      return <p {...attributes}>{children}</p>
-  }
-}
+export type CustomElementType = CustomElement["type"];
