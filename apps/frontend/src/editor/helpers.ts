@@ -1,8 +1,7 @@
 import isHotkey from "is-hotkey";
 import { KeyboardEvent } from "react";
 import { Editor, Element as SlateElement, Transforms } from "slate";
-import { CustomElementType } from "./CustomElement";
-import { CustomText } from "./renderLeaf";
+import { CustomElementType, CustomText } from "./types";
 
 const LIST_TYPES = ["numbered-list", "bulleted-list"];
 
@@ -31,7 +30,7 @@ export const toggleBlock = (
   }
 };
 
-export const toggleMark = (editor: Editor, format: keyof CustomText): void => {
+export const toggleMark = (editor: Editor, format: keyof CustomText) => {
   const isActive = isMarkActive(editor, format);
 
   if (isActive) {

@@ -1,34 +1,8 @@
 import { Descendant, Editor, Transforms } from "slate";
+import { isElement } from "./types";
 
-export const withHtml = (editor: Editor): Editor => {
-  const { insertData } = editor;
-
-  editor.insertData = (data) => {
-    const html = data.getData("text/html");
-
-    if (html) {
-      const parsed = new DOMParser().parseFromString(html, "text/html");
-      console.log(html);
-      const fragment = deserialize(parsed.body);
-      console.log({ fragment });
-      if (fragment) {
-        Transforms.insertFragment(editor, fragment);
-      }
-      return;
-    }
-
-    return insertData(data);
-  };
-
-  return editor;
-};
-
-const isElement = (node: Node): node is HTMLElement =>
-  node.nodeType === Node.ELEMENT_NODE;
-
-export const deserialize = (htmlNode: Node): Descendant[] => {
+const deserialize = (htmlNode: Node): Descendant[] => {
   const { nodeName, nodeType, textContent, childNodes } = htmlNode;
-
   const children = Array.from(childNodes).map(deserialize).flat();
 
   if (nodeType === Node.TEXT_NODE && textContent) {
@@ -67,4 +41,25 @@ export const deserialize = (htmlNode: Node): Descendant[] => {
   }
 
   return children;
+};
+
+export const withHtml = (editor: Editor): Editor => {
+  const { insertData } = editor;
+
+  editor.insertData = (data) => {
+    const html = data.getData("text/html");
+
+    if (html) {
+      const parsed = new DOMParser().parseFromString(html, "text/html");
+      const fragment = deserialize(parsed.body);
+      if (fragment) {
+        Transforms.insertFragment(editor, fragment);
+      }
+      return;
+    }
+
+    return insertData(data);
+  };
+
+  return editor;
 };

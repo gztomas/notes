@@ -1,21 +1,22 @@
-import React from "react";
 import {
-  Toolbar,
-  Typography,
-  Drawer,
-  Divider,
   Box,
   Container,
+  Divider,
+  Drawer,
+  Toolbar,
+  Typography,
 } from "@mui/material";
+import React from "react";
 import { NotesList } from "../notes";
 
 const drawerWidth = 240;
 
 interface InterfaceProps {
   activeNoteId?: string;
+  children: React.ReactNode;
 }
 
-const Interface: React.FC<InterfaceProps> = ({ activeNoteId, children }) => {
+const Interface = ({ activeNoteId, children }: InterfaceProps) => {
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer

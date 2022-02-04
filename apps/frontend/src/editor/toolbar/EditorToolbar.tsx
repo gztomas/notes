@@ -12,14 +12,13 @@ import {
 import { Button, ButtonGroup } from "@mui/material";
 import React from "react";
 import { useSlate } from "slate-react";
-import { CustomElementType } from "../CustomElement";
 import {
   isBlockActive,
   isMarkActive,
   toggleBlock,
   toggleMark,
 } from "../helpers";
-import { CustomText } from "../renderLeaf";
+import { CustomElementType, CustomText } from "../types";
 
 export const EditorToolbar = (): React.ReactElement => {
   const editor = useSlate();

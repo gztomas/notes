@@ -1,19 +1,18 @@
-import React from "react";
-import Link from "next/link";
+import { Assignment as AssignmentIcon } from "@mui/icons-material";
 import {
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Assignment as AssignmentIcon } from "@mui/icons-material";
+import Link from "next/link";
 import { useNotesList } from "./hooks";
 
 interface NotesListProps {
   activeNoteId?: string;
 }
 
-const NotesList: React.FC<NotesListProps> = ({ activeNoteId }) => {
+const NotesList = ({ activeNoteId }: NotesListProps) => {
   const { notesList } = useNotesList();
 
   return (
