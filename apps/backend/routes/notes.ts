@@ -40,12 +40,15 @@ const notesHandler: RequestHandler = (_req, res: Response<NotesResponse>) => {
 };
 
 const noteHandler: WebsocketRequestHandler = (ws, req) => {
-  ws.on("message", () => {
+  ws.on("message", (data) => {
+    const content = data ? JSON.parse(data.toString()).content : null;
     switch (req.params.id) {
       case NOTE_1.id: {
+        if (content) NOTE_1.content = content;
         return ws.send(JSON.stringify(NOTE_1));
       }
       case NOTE_2.id: {
+        if (content) NOTE_2.content = content;
         return ws.send(JSON.stringify(NOTE_2));
       }
     }

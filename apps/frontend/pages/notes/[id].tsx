@@ -1,9 +1,8 @@
-import React from "react";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { Interface } from "../../src/layout";
-import { SingleNote } from "../../src/notes";
+import { Note } from "../../src/notes/Note";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -17,7 +16,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Interface activeNoteId={noteId}>
-        {noteId ? <SingleNote id={noteId} key={noteId} /> : null}
+        {noteId ? <Note id={noteId} key={noteId} /> : null}
       </Interface>
     </>
   );

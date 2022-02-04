@@ -2,7 +2,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
@@ -21,4 +21,5 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     </>
   );
 };
-export default MyApp;
+
+export default App;

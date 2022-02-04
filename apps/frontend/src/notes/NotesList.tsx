@@ -12,7 +12,7 @@ interface NotesListProps {
   activeNoteId?: string;
 }
 
-const NotesList = ({ activeNoteId }: NotesListProps) => {
+export const NotesList = ({ activeNoteId }: NotesListProps) => {
   const { notesList } = useNotesList();
 
   return (
@@ -30,5 +30,3 @@ const NotesList = ({ activeNoteId }: NotesListProps) => {
     </List>
   );
 };
-
-export default NotesList;

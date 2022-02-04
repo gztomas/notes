@@ -7,16 +7,16 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { NotesList } from "../notes";
+import { NotesList } from "../notes/NotesList";
 
 const drawerWidth = 240;
 
 interface InterfaceProps {
   activeNoteId?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const Interface = ({ activeNoteId, children }: InterfaceProps) => {
+const Interface = ({ activeNoteId, children = null }: InterfaceProps) => {
   return (
     <Box sx={{ display: "flex" }}>
       <Drawer

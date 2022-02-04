@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { useEffect } from "react";
-import useSWR from "swr";
-import { NotesResponse, NoteResponse } from "../../../backend/routes/notes";
 import useWebSocket, { ReadyState } from "react-use-websocket";
+import { Descendant } from "slate";
+import useSWR from "swr";
+import { NoteResponse, NotesResponse } from "../../../backend/routes/notes";
 
 // If you want to use GraphQL API or libs like Axios, you can create your own fetcher function.
 // Check here for more examples: https://swr.vercel.app/docs/data-fetching
@@ -36,8 +37,13 @@ export const useNote = (id: string) => {
     }
   }, [readyState, lastMessage]);
 
+  const updateNote = (content: Descendant[]) => {
+    sendMessage(JSON.stringify({ id, content }));
+  };
+
   return {
     note: lastMessage && (JSON.parse(lastMessage.data) as NoteResponse),
     readyState,
+    updateNote,
   };
 };
