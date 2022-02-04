@@ -1,3 +1,5 @@
+# Notes
+
 ## Repository structure
 
 We follow the monorepo pattern:
