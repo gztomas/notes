@@ -1,6 +1,6 @@
-import Head from 'next/head'
-import type { AppProps } from 'next/app'
-import CssBaseline from '@mui/material/CssBaseline'
+import Head from "next/head";
+import type { AppProps } from "next/app";
+import CssBaseline from "@mui/material/CssBaseline";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -19,6 +19,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <CssBaseline />
       <Component {...pageProps} />
     </>
-  )
+  );
 }
-export default MyApp
+export default MyApp;

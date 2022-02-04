@@ -1,24 +1,34 @@
-import React from 'react'
-import { Toolbar, Typography, Drawer, Divider, Box, Container } from '@mui/material'
-import { NotesList } from '../notes'
+import React from "react";
+import {
+  Toolbar,
+  Typography,
+  Drawer,
+  Divider,
+  Box,
+  Container,
+} from "@mui/material";
+import { NotesList } from "../notes";
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 interface InterfaceProps {
-  activeNoteId?: string
+  activeNoteId?: string;
 }
 
 const Interface: React.FC<InterfaceProps> = ({ activeNoteId, children }) => {
   return (
-    <Box sx={{ display: 'flex' }}>
-      <Drawer variant="permanent" sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
+    <Box sx={{ display: "flex" }}>
+      <Drawer
+        variant="permanent"
+        sx={{
           width: drawerWidth,
-          boxSizing: 'border-box',
-        },
-      }}>
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
+        }}
+      >
         <Toolbar>
           <Typography
             component="h1"
@@ -39,9 +49,9 @@ const Interface: React.FC<InterfaceProps> = ({ activeNoteId, children }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          height: '100vh',
-          backgroundColor: '#eee',
-          overflow: 'auto',
+          height: "100vh",
+          backgroundColor: "#eee",
+          overflow: "auto",
         }}
       >
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -49,7 +59,7 @@ const Interface: React.FC<InterfaceProps> = ({ activeNoteId, children }) => {
         </Container>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Interface
+export default Interface;
