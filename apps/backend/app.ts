@@ -1,11 +1,11 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
 import expressWs from "express-ws";
-
 import apiRoutes from "./routes";
 
 const app = express();
 const PORT = 3001;
+
 expressWs(app);
 
 app.use(express.json());

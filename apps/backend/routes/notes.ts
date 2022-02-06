@@ -1,7 +1,7 @@
 import express, { RequestHandler, Response } from "express";
 import { WebsocketRequestHandler } from "express-ws";
 import { Descendant } from "slate";
-import { NOTE_1, NOTE_2 } from "../fixtures/notes";
+import { db } from "../firestore";
 
 // Patch `express.Router` to support `.ws()` without needing to pass around a `ws`-ified app.
 // https://github.com/HenningM/express-ws/issues/86
@@ -24,38 +24,50 @@ export interface NoteResponse {
   content: Array<Descendant>;
 }
 
-const notesHandler: RequestHandler = (_req, res: Response<NotesResponse>) => {
+const getNotesHandler: RequestHandler = async (
+  _req,
+  res: Response<NotesResponse>
+) => {
+  const data = (
+    await Promise.all(
+      (await db.collection("notes").listDocuments()).map((doc) => doc.get())
+    )
+  ).map((snapshot) => ({ title: snapshot.data()?.title, id: snapshot.id }));
   res.json({
-    notes: [
-      {
-        id: NOTE_1.id,
-        title: NOTE_1.title,
-      },
-      {
-        id: NOTE_2.id,
-        title: NOTE_2.title,
-      },
-    ],
+    notes: data,
   });
 };
 
-const noteHandler: WebsocketRequestHandler = (ws, req) => {
-  ws.on("message", (data) => {
-    const content = data ? JSON.parse(data.toString()).content : null;
-    switch (req.params.id) {
-      case NOTE_1.id: {
-        if (content) NOTE_1.content = content;
-        return ws.send(JSON.stringify(NOTE_1));
-      }
-      case NOTE_2.id: {
-        if (content) NOTE_2.content = content;
-        return ws.send(JSON.stringify(NOTE_2));
-      }
+const postNoteHandler: RequestHandler = async (_req, res) => {
+  const doc = await db.collection("notes").add({
+    title: "",
+    content: [{ type: "paragraph", children: [{ text: "" }] }],
+  });
+  res.json({
+    id: doc.id,
+  });
+};
+
+const deleteNoteHandler: RequestHandler = async (req, res) => {
+  await db.collection("notes").doc(req.params.id).delete();
+  res.json({});
+};
+
+const noteHandler: WebsocketRequestHandler = async (ws, req) => {
+  const note = (await db.collection("notes").doc(req.params.id).get()).data();
+  ws.send(JSON.stringify({ id: req.params.id, ...note }));
+
+  ws.on("message", async (data) => {
+    const update = data ? JSON.parse(String(data)) : null;
+    if (update) {
+      db.collection("notes").doc(req.params.id).update(update);
     }
   });
 };
 
-router.get("/", notesHandler);
+router.get("/", getNotesHandler);
+router.post("/", postNoteHandler);
+router.delete("/:id", deleteNoteHandler);
 router.ws("/:id", noteHandler);
 
 export default router;

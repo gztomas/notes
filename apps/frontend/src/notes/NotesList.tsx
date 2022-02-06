@@ -1,12 +1,15 @@
-import { Assignment as AssignmentIcon } from "@mui/icons-material";
+import { Assignment as AssignmentIcon, Delete } from "@mui/icons-material";
 import {
+  IconButton,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import Link from "next/link";
-import { useNotesList } from "./hooks";
+import { useRouter } from "next/router";
+import { useDeleteNote } from "./useDeleteNote";
+import { useNotesList } from "./useNotesList";
 
 interface NotesListProps {
   activeNoteId?: string;
@@ -14,18 +17,35 @@ interface NotesListProps {
 
 export const NotesList = ({ activeNoteId }: NotesListProps) => {
   const { notesList } = useNotesList();
+  const router = useRouter();
+  const deleteNote = useDeleteNote();
 
   return (
     <List>
-      {notesList?.map((note) => (
-        <Link href={`/notes/${note.id}`} key={note.id}>
-          <ListItemButton selected={note.id === activeNoteId}>
+      {notesList?.map(({ id, title }) => (
+        <ListItem
+          disablePadding
+          key={id}
+          secondaryAction={
+            <IconButton size="small" edge="end">
+              <Delete fontSize="small" onClick={() => deleteNote(id)} />
+            </IconButton>
+          }
+        >
+          <ListItemButton
+            dense
+            selected={id === activeNoteId}
+            onClick={() => router.push(`/notes/${id}`)}
+          >
             <ListItemIcon>
-              <AssignmentIcon />
+              <AssignmentIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={note.title} />
+            <ListItemText
+              primary={title ? title : "Untitled note"}
+              sx={title ? undefined : { color: "gray" }}
+            />
           </ListItemButton>
-        </Link>
+        </ListItem>
       ))}
     </List>
   );

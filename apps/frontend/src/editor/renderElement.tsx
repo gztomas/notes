@@ -1,11 +1,8 @@
-import React from "react";
 import { RenderElementProps } from "slate-react";
+import { Link } from "./links/Link";
 
-export const renderElement = ({
-  attributes,
-  children,
-  element,
-}: RenderElementProps): React.ReactElement => {
+export const renderElement = (props: RenderElementProps) => {
+  const { attributes, children, element } = props;
   switch (element.type) {
     case "paragraph":
       return <p {...attributes}>{children}</p>;
@@ -23,9 +20,9 @@ export const renderElement = ({
       return <ol {...attributes}>{children}</ol>;
     case "link":
       return (
-        <a {...attributes} href={element.href ?? undefined}>
+        <Link attributes={attributes} element={element}>
           {children}
-        </a>
+        </Link>
       );
     default:
       return <span {...attributes}>{children}</span>;

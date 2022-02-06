@@ -1,9 +1,18 @@
-import { Badge, BadgeProps, Paper, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+// @refresh reset // Fixes hot refresh errors in development https://github.com/ianstormtaylor/slate/issues/3477
+
+import { DescriptionOutlined } from "@mui/icons-material";
+import {
+  Avatar,
+  Badge,
+  BadgeProps,
+  Box,
+  Divider,
+  TextField,
+} from "@mui/material";
 import { ReadyState } from "react-use-websocket";
-import { Descendant } from "slate";
 import { EditorView } from "../editor/EditorView";
-import { useNote } from "./hooks";
+import { EditorToolbar } from "../editor/toolbar/EditorToolbar";
+import { useNote } from "./useNote";
 
 interface NoteProps {
   id: string;
@@ -18,46 +27,37 @@ const CONNECTION_BADGE_COLOR: Record<ReadyState, BadgeProps["color"]> = {
 };
 
 export const Note = ({ id }: NoteProps) => {
-  const { note, readyState, updateNote } = useNote(id);
-  const [value, setValue] = useState<Descendant[]>(
-    note?.content ?? [{ type: "paragraph", children: [{ text: "" }] }]
-  );
+  const { content, handleContentChange, title, handleTitleChange, readyState } =
+    useNote(id);
 
-  useEffect(() => {
-    if (note) {
-      setValue(note?.content);
-    }
-  }, [JSON.stringify(note?.content)]);
-
-  const handleChange = (value: Descendant[]) => {
-    setValue(value);
-    updateNote(value);
-  };
-
-  return note ? (
-    <>
-      <Badge
-        color={CONNECTION_BADGE_COLOR[readyState]}
-        variant="dot"
-        sx={{ width: "100%" }}
-      >
-        <TextField
-          value={note.title}
-          variant="standard"
-          fullWidth={true}
-          inputProps={{ style: { fontSize: 32, color: "#666" } }}
-          sx={{ mb: 2 }}
-        />
-      </Badge>
-      <Paper
-        sx={{
-          p: 2,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <EditorView value={value} onChange={handleChange} />
-      </Paper>
-    </>
+  return content ? (
+    <EditorView
+      value={content}
+      onChange={handleContentChange}
+      header={
+        <Box position="sticky" top={0} zIndex={1} bgcolor={"#E8E7E4"}>
+          <Box display="flex" marginX={2} marginTop={5} alignItems="center">
+            <Badge
+              color={CONNECTION_BADGE_COLOR[readyState]}
+              badgeContent=" "
+              variant="dot"
+              overlap="circular"
+            >
+              <DescriptionOutlined color="primary" fontSize="large" />
+            </Badge>
+            <TextField
+              onChange={handleTitleChange}
+              placeholder="Untitled note"
+              value={title}
+              inputProps={{ style: { fontSize: 20, fontWeight: 700 } }}
+              sx={{ marginX: 3 }}
+            />
+            <Avatar>U</Avatar>
+          </Box>
+          <EditorToolbar />
+          <Divider />
+        </Box>
+      }
+    />
   ) : null;
 };

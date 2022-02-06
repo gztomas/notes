@@ -1,9 +1,9 @@
 import { Descendant, Editor, Transforms } from "slate";
 import { isElement } from "./types";
 
-const deserialize = (htmlNode: Node): Descendant[] => {
+const deserializeGoogleDoc = (htmlNode: Node): Descendant[] => {
   const { nodeName, nodeType, textContent, childNodes } = htmlNode;
-  const children = Array.from(childNodes).map(deserialize).flat();
+  const children = Array.from(childNodes).map(deserializeGoogleDoc).flat();
 
   if (nodeType === Node.TEXT_NODE && textContent) {
     return [{ text: textContent }];
@@ -23,7 +23,7 @@ const deserialize = (htmlNode: Node): Descendant[] => {
       return [{ type: "blockQuote", children }];
     } else return [{ type: "paragraph", children }];
   } else if (nodeName === "A") {
-    return [{ type: "link", href: htmlNode.getAttribute("href"), children }];
+    return [{ type: "link", url: htmlNode.getAttribute("href"), children }];
   } else if (nodeName === "H1") {
     return [{ type: "heading1", children }];
   } else if (nodeName === "H2") {
@@ -43,23 +43,30 @@ const deserialize = (htmlNode: Node): Descendant[] => {
   return children;
 };
 
-export const withHtml = (editor: Editor): Editor => {
-  const { insertData } = editor;
+const isGoogleDoc = (doc: Document) =>
+  Boolean(doc.querySelector("b")?.id.startsWith("docs-internal"));
+
+export const withGoogleDoc = (editor: Editor): Editor => {
+  const { insertData, isInline } = editor;
 
   editor.insertData = (data) => {
     const html = data.getData("text/html");
 
     if (html) {
       const parsed = new DOMParser().parseFromString(html, "text/html");
-      const fragment = deserialize(parsed.body);
-      if (fragment) {
-        Transforms.insertFragment(editor, fragment);
+      if (isGoogleDoc(parsed)) {
+        const fragment = deserializeGoogleDoc(parsed.body);
+        if (fragment) {
+          Transforms.insertFragment(editor, fragment);
+          return;
+        }
       }
-      return;
     }
-
     return insertData(data);
   };
+
+  editor.isInline = (element) =>
+    ["link"].includes(element.type) || isInline(element);
 
   return editor;
 };

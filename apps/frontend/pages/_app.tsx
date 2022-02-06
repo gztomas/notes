@@ -15,6 +15,10 @@ const App = ({ Component, pageProps }: AppProps) => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <CssBaseline />
       <Component {...pageProps} />

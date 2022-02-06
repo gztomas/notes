@@ -2,30 +2,30 @@ import { BaseEditor, BaseElement, BaseText } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor } from "slate-react";
 
-interface ParagraphElement extends BaseElement {
+export interface ParagraphElement extends BaseElement {
   type: "paragraph";
 }
-interface Heading1Element extends BaseElement {
+export interface Heading1Element extends BaseElement {
   type: "heading1";
 }
-interface Heading2Element extends BaseElement {
+export interface Heading2Element extends BaseElement {
   type: "heading2";
 }
-interface BlockQuoteElement extends BaseElement {
+export interface BlockQuoteElement extends BaseElement {
   type: "blockQuote";
 }
-interface UnorderedListElement extends BaseElement {
+export interface UnorderedListElement extends BaseElement {
   type: "unorderedList";
 }
-interface OrderedListElement extends BaseElement {
+export interface OrderedListElement extends BaseElement {
   type: "orderedList";
 }
-interface ListItemElement extends BaseElement {
+export interface ListItemElement extends BaseElement {
   type: "listItem";
 }
-interface LinkElement extends BaseElement {
+export interface LinkElement extends BaseElement {
   type: "link";
-  href: string | null;
+  url: string;
 }
 
 export type CustomElement =
@@ -46,6 +46,8 @@ export interface CustomText extends BaseText {
   italic?: boolean;
   underline?: boolean;
 }
+
+export type MarkType = keyof Omit<CustomText, "text">;
 
 // Slate suggests overwriting the module to include the ReactEditor, Custom Elements & Text
 // https://docs.slatejs.org/concepts/12-typescript
