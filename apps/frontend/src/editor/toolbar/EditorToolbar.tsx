@@ -10,57 +10,54 @@ import {
   LooksOne,
   LooksTwo,
 } from "@mui/icons-material";
-import { Box, Button, Divider, Popover, Stack, TextField } from "@mui/material";
-import React, { FormEvent, useState } from "react";
+import { Box, Divider } from "@mui/material";
+import React, { useState } from "react";
 import { useSlate } from "slate-react";
 import {
-  insertLink,
-  isBlockActive,
-  isMarkActive,
-  toggleBlock,
-  toggleMark,
-  unwrapLink,
-} from "../helpers";
-import { CustomElementType, MarkType } from "../types";
+  isElementType,
+  SlateElementType,
+  toggleElementType,
+} from "../elements";
+import { insertLink } from "../links/insertLink";
+import { LinkPopover } from "../links/LinkPopover";
+import { unwrapLink } from "../links/unwrapLink";
+import { isMarkActive, SlateMarkType, toggleMark } from "../marks";
 import { ToolbarButton } from "./ToolbarButton";
 
-export const EditorToolbar = (): React.ReactElement => {
+export const EditorToolbar = () => {
   const editor = useSlate();
 
-  const markHandler = (markType: MarkType) => (e: React.MouseEvent) => {
+  const markHandler = (markType: SlateMarkType) => (e: React.MouseEvent) => {
     e.preventDefault();
     toggleMark(editor, markType);
   };
-  const blockHandler =
-    (blockType: CustomElementType) => (e: React.MouseEvent) => {
+
+  const elementHandler =
+    (elementType: SlateElementType) => (e: React.MouseEvent) => {
       e.preventDefault();
-      toggleBlock(editor, blockType);
+      toggleElementType(editor, elementType);
     };
+
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   return (
     <Box m={1} display={"flex"}>
       <ToolbarButton
         title="Heading1"
-        onMouseDown={blockHandler("heading1")}
-        active={isBlockActive(editor, "heading1")}
+        onMouseDown={elementHandler("heading1")}
+        active={isElementType(editor, "heading1")}
       >
         <LooksOne />
       </ToolbarButton>
       <ToolbarButton
         title="Heading2"
-        onMouseDown={blockHandler("heading2")}
-        active={isBlockActive(editor, "heading2")}
+        onMouseDown={elementHandler("heading2")}
+        active={isElementType(editor, "heading2")}
       >
         <LooksTwo />
       </ToolbarButton>
 
-      <Divider
-        orientation="vertical"
-        flexItem
-        sx={{ margin: "0 10px" }}
-        variant="middle"
-      />
+      <Divider orientation="vertical" flexItem sx={{ margin: "0 10px" }} />
 
       <ToolbarButton
         title="Bold"
@@ -100,22 +97,22 @@ export const EditorToolbar = (): React.ReactElement => {
 
       <ToolbarButton
         title="Numbered List"
-        onMouseDown={blockHandler("orderedList")}
-        active={isBlockActive(editor, "orderedList")}
+        onMouseDown={elementHandler("orderedList")}
+        active={isElementType(editor, "orderedList")}
       >
         <FormatListNumbered />
       </ToolbarButton>
       <ToolbarButton
         title="Bulleted List"
-        onMouseDown={blockHandler("unorderedList")}
-        active={isBlockActive(editor, "unorderedList")}
+        onMouseDown={elementHandler("unorderedList")}
+        active={isElementType(editor, "unorderedList")}
       >
         <FormatListBulleted />
       </ToolbarButton>
       <ToolbarButton
         title="Quote"
-        onMouseDown={blockHandler("blockQuote")}
-        active={isBlockActive(editor, "blockQuote")}
+        onMouseDown={elementHandler("blockQuote")}
+        active={isElementType(editor, "blockQuote")}
       >
         <FormatQuote />
       </ToolbarButton>
@@ -127,68 +124,26 @@ export const EditorToolbar = (): React.ReactElement => {
         variant="middle"
       />
 
-      <Popover
+      <LinkPopover
+        onInsert={(link) => {
+          insertLink(editor, link);
+          setAnchorEl(null);
+        }}
         anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(null)}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <Stack
-          m={2}
-          spacing={1}
-          component="form"
-          onSubmit={(e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            const data = new FormData(e.currentTarget);
-            const text = data.get("text");
-            const url = data.get("url");
-            if (typeof text === "string" && typeof url === "string") {
-              insertLink(editor, text, url);
-              setAnchorEl(null);
-            }
-          }}
-        >
-          <TextField
-            required
-            name="text"
-            label="Text"
-            placeholder="text"
-          ></TextField>
-          <TextField
-            required
-            name="url"
-            label="URL"
-            placeholder="url"
-          ></TextField>
-          <Button
-            type="submit"
-            variant="outlined"
-            onMouseDown={(e) => {
-              e.preventDefault();
-            }}
-          >
-            Insert
-          </Button>
-        </Stack>
-      </Popover>
+      />
+
       <ToolbarButton
         title="Insert Link"
         onMouseDown={(e) => {
           e.preventDefault();
-          if (isBlockActive(editor, "link")) {
+          if (isElementType(editor, "link")) {
             unwrapLink(editor);
           } else {
             setAnchorEl(e.currentTarget);
           }
         }}
-        active={isBlockActive(editor, "link")}
+        active={isElementType(editor, "link")}
       >
         <InsertLink />
       </ToolbarButton>

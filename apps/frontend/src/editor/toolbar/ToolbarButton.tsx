@@ -1,7 +1,14 @@
 import { ButtonProps, IconButton, Tooltip } from "@mui/material";
 
-export const ToolbarButton = (props: ButtonProps & { active: boolean }) => {
-  const { title, active, ...buttonProps } = props;
+interface ToolbarButtonProps extends ButtonProps {
+  active: boolean;
+}
+
+export const ToolbarButton = ({
+  title,
+  active,
+  ...buttonProps
+}: ToolbarButtonProps) => {
   const button = (
     <IconButton
       {...buttonProps}

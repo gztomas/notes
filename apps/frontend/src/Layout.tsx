@@ -58,7 +58,6 @@ export const Layout = ({ activeNoteId, children = null }: LayoutProps) => {
             </Fab>
           </Box>
         </Drawer>
-
         <Box
           component="main"
           sx={{

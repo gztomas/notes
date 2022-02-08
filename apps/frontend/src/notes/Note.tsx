@@ -16,7 +16,7 @@ export const Note = (props: { id: string }) => {
       onChange={handleContentChange}
       renderHeader={(cursors) => (
         <NoteHeader
-          cursors={cursors}
+          users={cursors}
           onTitleChange={handleTitleChange}
           readyState={readyState}
           title={title}

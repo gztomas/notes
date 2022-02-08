@@ -1,13 +1,18 @@
-import { Descendant, Editor, Transforms } from "slate";
-import { isElement } from "./types";
+import { SlateContent } from "../types";
 
-const deserializeGoogleDoc = (htmlNode: Node): Descendant[] => {
+export const isHTMLElement = (node: Node): node is HTMLElement =>
+  node.nodeType === Node.ELEMENT_NODE;
+
+/**
+ * Transforms a GDoc imported HTML document into Slate content
+ */
+export const transform = (htmlNode: Node): SlateContent => {
   const { nodeName, nodeType, textContent, childNodes } = htmlNode;
-  const children = Array.from(childNodes).map(deserializeGoogleDoc).flat();
+  const children = Array.from(childNodes).map(transform).flat();
 
   if (nodeType === Node.TEXT_NODE && textContent) {
     return [{ text: textContent }];
-  } else if (!isElement(htmlNode)) {
+  } else if (!isHTMLElement(htmlNode)) {
     return [];
   } else if (nodeName === "UL") {
     return [{ type: "unorderedList", children }];
@@ -19,17 +24,22 @@ const deserializeGoogleDoc = (htmlNode: Node): Descendant[] => {
     return [{ type: "listItem", children }];
   } else if (nodeName === "P") {
     const { style } = htmlNode;
+    // Not ideal but these margins are the only indicator this is a block quote
+    // coming from GDocs
     if (style.marginLeft === "30pt" && style.marginRight === "30pt") {
       return [{ type: "blockQuote", children }];
     } else return [{ type: "paragraph", children }];
   } else if (nodeName === "A") {
-    return [{ type: "link", url: htmlNode.getAttribute("href"), children }];
+    const url = htmlNode.getAttribute("href");
+    if (url) return [{ type: "link", url, children }];
   } else if (nodeName === "H1") {
     return [{ type: "heading1", children }];
   } else if (nodeName === "H2") {
     return [{ type: "heading2", children }];
   } else if (nodeName === "SPAN" && textContent) {
     const { style } = htmlNode;
+    // GDocs doesn't really use HTML tags for formatting, but inline styles, so
+    // depending on them here
     return [
       {
         text: textContent,
@@ -41,32 +51,4 @@ const deserializeGoogleDoc = (htmlNode: Node): Descendant[] => {
   }
 
   return children;
-};
-
-const isGoogleDoc = (doc: Document) =>
-  Boolean(doc.querySelector("b")?.id.startsWith("docs-internal"));
-
-export const withGoogleDoc = (editor: Editor): Editor => {
-  const { insertData, isInline } = editor;
-
-  editor.insertData = (data) => {
-    const html = data.getData("text/html");
-
-    if (html) {
-      const parsed = new DOMParser().parseFromString(html, "text/html");
-      if (isGoogleDoc(parsed)) {
-        const fragment = deserializeGoogleDoc(parsed.body);
-        if (fragment) {
-          Transforms.insertFragment(editor, fragment);
-          return;
-        }
-      }
-    }
-    return insertData(data);
-  };
-
-  editor.isInline = (element) =>
-    ["link"].includes(element.type) || isInline(element);
-
-  return editor;
 };

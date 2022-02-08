@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
-import { Descendant } from "slate";
 import { NoteResponse } from "../../../backend/routes/notes";
+import { SlateContent } from "../editor/types";
 
 export const useNote = (id: string) => {
   const { readyState, lastMessage, sendMessage } = useWebSocket(
@@ -15,7 +15,7 @@ export const useNote = (id: string) => {
   };
 
   const [title, setTitle] = useState(note?.title);
-  const [content, setContent] = useState<Descendant[] | undefined>(
+  const [content, setContent] = useState<SlateContent | undefined>(
     note?.content
   );
 
@@ -27,7 +27,7 @@ export const useNote = (id: string) => {
     if (note) setTitle(note.title);
   }, [note?.title]);
 
-  const handleContentChange = (newContent: Descendant[]) => {
+  const handleContentChange = (newContent: SlateContent) => {
     setContent(newContent);
     updateNote({ content: newContent });
   };

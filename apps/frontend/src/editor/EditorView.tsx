@@ -3,19 +3,18 @@
 import { Box } from "@mui/material";
 import { useCursor } from "@slate-collaborative/client";
 import { useEffect, useState } from "react";
-import { Descendant } from "slate";
 import { Editable, Slate } from "slate-react";
+import { isUserData, UserData } from "./collaboration/users";
 import { createEditor } from "./createEditor";
-import { handleHotkeys } from "./helpers";
+import { handleHotkeys } from "./hotkeys";
 import { renderElement } from "./renderElement";
 import { renderLeaf } from "./renderLeaf";
+import { SlateContent } from "./types";
 
 interface EditorViewProps {
-  renderHeader: (
-    cursors: ReturnType<typeof useCursor>["cursors"]
-  ) => React.ReactNode;
-  onChange: (value: Descendant[]) => void;
-  value: Descendant[];
+  renderHeader: (users: UserData[]) => React.ReactNode;
+  onChange: (value: SlateContent) => void;
+  value: SlateContent;
   docId: string;
 }
 
@@ -35,7 +34,7 @@ export const EditorView = ({
 
   return (
     <Slate editor={editor} value={value} onChange={onChange}>
-      {renderHeader(cursors)}
+      {renderHeader(isUserData(cursors) ? cursors : [])}
       <Box
         sx={{
           flexGrow: 1,

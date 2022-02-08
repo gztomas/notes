@@ -1,12 +1,16 @@
 import { Box } from "@mui/material";
 
-interface CaretLeafProps {
+interface TheirCaretProps {
   color: string;
   isForward: boolean;
   name: string;
 }
 
-export const CaretLeaf = ({ color, isForward, name }: CaretLeafProps) => {
+/**
+ * Presentation for some other user caret editing the document labeled with the
+ * user name
+ */
+export const TheirCaret = ({ color, isForward, name }: TheirCaretProps) => {
   return (
     <Box component="span" sx={{ position: "relative" }}>
       <Box
@@ -24,7 +28,7 @@ export const CaretLeaf = ({ color, isForward, name }: CaretLeafProps) => {
           top: isForward ? "auto" : 0,
         }}
       >
-        <Box sx={{ position: "relative" }}>
+        <Box component="span" sx={{ position: "relative" }}>
           <Box
             contentEditable={false}
             component="span"

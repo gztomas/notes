@@ -1,8 +1,11 @@
 import { RenderElementProps } from "slate-react";
-import { Link } from "./links/Link";
+import { LinkSlateElement } from "./links/LinkSlateElement";
 
-export const renderElement = (props: RenderElementProps) => {
-  const { attributes, children, element } = props;
+export const renderElement = ({
+  attributes,
+  children,
+  element,
+}: RenderElementProps) => {
   switch (element.type) {
     case "paragraph":
       return <p {...attributes}>{children}</p>;
@@ -20,9 +23,9 @@ export const renderElement = (props: RenderElementProps) => {
       return <ol {...attributes}>{children}</ol>;
     case "link":
       return (
-        <Link attributes={attributes} element={element}>
+        <LinkSlateElement attributes={attributes} element={element}>
           {children}
-        </Link>
+        </LinkSlateElement>
       );
     default:
       return <span {...attributes}>{children}</span>;
