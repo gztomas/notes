@@ -7,8 +7,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { useRouter } from "next/router";
-import { useDeleteNote } from "./useDeleteNote";
 import { useNotesList } from "./useNotesList";
 
 interface NotesListProps {
@@ -16,13 +14,10 @@ interface NotesListProps {
 }
 
 export const NotesList = ({ activeNoteId }: NotesListProps) => {
-  const deleteNote = useDeleteNote();
-  const notesList = useNotesList();
-  const router = useRouter();
-
+  const { notes, openNote, deleteNote } = useNotesList();
   return (
     <List>
-      {notesList?.map(({ id, title }) => (
+      {notes?.map(({ id, title }) => (
         <ListItem
           disablePadding
           key={id}
@@ -35,7 +30,7 @@ export const NotesList = ({ activeNoteId }: NotesListProps) => {
           <ListItemButton
             dense
             selected={id === activeNoteId}
-            onClick={() => router.push(`/notes/${id}`)}
+            onClick={() => openNote(id)}
           >
             <ListItemIcon>
               <AssignmentIcon fontSize="small" />

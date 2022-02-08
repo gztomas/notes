@@ -1,5 +1,5 @@
 import { RenderElementProps } from "slate-react";
-import { LinkSlateElement } from "./links/LinkSlateElement";
+import { LinkSlateElement } from "../links/LinkSlateElement";
 
 export const renderElement = ({
   attributes,

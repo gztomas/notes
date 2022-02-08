@@ -19,7 +19,6 @@ export const UserAvatars = ({ users }: UserAvatarsProps) => {
         <Tooltip
           key={user.name}
           title={user.name === localUser.name ? "Yourself" : user.name}
-          arrow
         >
           <Avatar alt={user.name} sx={{ bgcolor: user.color }}>
             {getInitials(user.name)}

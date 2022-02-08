@@ -19,6 +19,9 @@ export const theme = createTheme({
       },
     },
     MuiTooltip: {
+      defaultProps: {
+        arrow: true,
+      },
       styleOverrides: {
         tooltip: {
           "&&&": {

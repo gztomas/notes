@@ -17,11 +17,5 @@ export const ToolbarButton = ({
       color={active ? "secondary" : "primary"}
     />
   );
-  return title ? (
-    <Tooltip arrow title={title}>
-      {button}
-    </Tooltip>
-  ) : (
-    button
-  );
+  return title ? <Tooltip title={title}>{button}</Tooltip> : button;
 };

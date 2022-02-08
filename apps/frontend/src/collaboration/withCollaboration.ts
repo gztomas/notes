@@ -9,12 +9,7 @@ export const withCollaboration = (editor: Editor, docId: string) => {
     cursorData: { name, color, alphaColor: color.slice(0, -2) + "0.2)" },
     url: `http://localhost:3002/${docId}`,
     connectOpts: {
-      query: {
-        name,
-        // TODO
-        // token: "123",
-        // slug: docId,
-      },
+      query: { name },
     },
   });
 };

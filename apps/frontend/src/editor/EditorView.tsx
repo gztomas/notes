@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import { useCursor } from "@slate-collaborative/client";
 import { useEffect, useState } from "react";
 import { Editable, Slate } from "slate-react";
-import { isUserData, UserData } from "./collaboration/users";
+import { isUserData, UserData } from "../collaboration/users";
 import { createEditor } from "./createEditor";
 import { handleHotkeys } from "./hotkeys";
 import { renderElement } from "./renderElement";

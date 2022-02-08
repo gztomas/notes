@@ -1,17 +1,21 @@
 import { Launch } from "@mui/icons-material";
 import { Box, Tooltip } from "@mui/material";
 import { RenderElementProps } from "slate-react";
-import { LinkElement } from "../elements";
+import { LinkElement } from "../editor/elements";
 
-export const LinkSlateElement = (props: {
+interface LinkSlateElementProps {
   attributes: RenderElementProps["attributes"];
   element: LinkElement;
   children: React.ReactNode;
-}) => {
-  const { attributes, children, element } = props;
+}
+
+export const LinkSlateElement = ({
+  attributes,
+  children,
+  element,
+}: LinkSlateElementProps) => {
   return (
     <Tooltip
-      arrow
       color="white"
       title={
         <Box

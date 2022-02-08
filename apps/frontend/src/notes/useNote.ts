@@ -3,6 +3,9 @@ import useWebSocket from "react-use-websocket";
 import { NoteResponse } from "../../../backend/routes/notes";
 import { SlateContent } from "../editor/types";
 
+/**
+ * Responsible for the behavior of a note
+ */
 export const useNote = (id: string) => {
   const { readyState, lastMessage, sendMessage } = useWebSocket(
     `ws://localhost:3001/api/notes/${id}`,

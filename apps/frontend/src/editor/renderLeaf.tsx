@@ -1,5 +1,5 @@
 import { RenderLeafProps } from "slate-react";
-import { TheirCaret } from "./collaboration/TheirCaret";
+import { TheirCaret } from "../collaboration/TheirCaret";
 import { hasCaretMark } from "./marks";
 
 export const renderLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {

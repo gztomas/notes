@@ -4,8 +4,11 @@ import { EditorView } from "../editor/EditorView";
 import { NoteHeader } from "./NoteHeader";
 import { useNote } from "./useNote";
 
-export const Note = (props: { id: string }) => {
-  const { id } = props;
+interface NoteProps {
+  id: string;
+}
+
+export const Note = ({ id }: NoteProps) => {
   const { content, handleContentChange, title, handleTitleChange, readyState } =
     useNote(id);
 

@@ -17,11 +17,11 @@ import {
   isElementType,
   SlateElementType,
   toggleElementType,
-} from "../elements";
+} from "../editor/elements";
 import { insertLink } from "../links/insertLink";
 import { LinkPopover } from "../links/LinkPopover";
 import { unwrapLink } from "../links/unwrapLink";
-import { isMarkActive, SlateMarkType, toggleMark } from "../marks";
+import { isMarkActive, SlateMarkType, toggleMark } from "../editor/marks";
 import { ToolbarButton } from "./ToolbarButton";
 
 export const EditorToolbar = () => {
