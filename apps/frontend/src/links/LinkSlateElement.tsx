@@ -16,7 +16,6 @@ export const LinkSlateElement = ({
 }: LinkSlateElementProps) => {
   return (
     <Tooltip
-      color="white"
       title={
         <Box
           component="a"
