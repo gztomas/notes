@@ -16,7 +16,11 @@ We follow the monorepo pattern:
 
 ## How to run the system
 
-Start the dev server on [http://localhost:3000](http://localhost:3000) by running **`npm run dev`** in the root folder.
+Since we are using npm overrides there is an strict check for npm and node version. Please use at least npm `8.3.0`.
+
+At the project root do `npm install`
+
+Then start the dev server on [http://localhost:3000](http://localhost:3000) by running **`npm run dev`** in the root folder.
 
 ## Type checking and linting
 
