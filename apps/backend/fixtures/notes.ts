@@ -7,7 +7,7 @@ export const NOTE_1 = {
     {
       type: "heading-one",
       children: [{ text: "Action Items" }],
-    },
+    } as Descendant,
     {
       type: "list-item",
       children: [{ text: "Get milk from the store" }],
@@ -20,7 +20,7 @@ export const NOTE_1 = {
       type: "list-item",
       children: [{ text: "Call mom about vacation" }],
     },
-  ] as unknown as Array<Descendant>,
+  ] as Descendant[],
 };
 
 export const NOTE_2 = {
@@ -38,7 +38,7 @@ export const NOTE_2 = {
         { text: "<textarea>", code: true },
         { text: "!" },
       ],
-    },
+    } as Descendant,
     {
       type: "paragraph",
       children: [
@@ -63,5 +63,5 @@ export const NOTE_2 = {
       type: "paragraph",
       children: [{ text: "Try it out for yourself!" }],
     },
-  ] as unknown as Array<Descendant>,
+  ] as Descendant[],
 };
