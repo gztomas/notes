@@ -3,7 +3,7 @@ import { insertLink } from "../helpers";
 
 const isUrl = (url: string) => /(www|http:|https:)+[^\s]+[\w]/.test(url);
 
-export const withLinks = (editor: Editor): Editor => {
+export const withLinks = (editor: Editor) => {
   const { insertData, isInline, insertText } = editor;
 
   editor.insertText = (text) => {

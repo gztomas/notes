@@ -1,4 +1,5 @@
 import { RenderLeafProps } from "slate-react";
+import { CaretLeaf } from "./collaboration/CaretLeaf";
 
 export const renderLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   if (leaf.bold) {
@@ -17,5 +18,10 @@ export const renderLeaf = ({ attributes, children, leaf }: RenderLeafProps) => {
     children = <u>{children}</u>;
   }
 
-  return <span {...attributes}>{children}</span>;
+  return (
+    <span {...attributes} style={{ backgroundColor: leaf.alphaColor }}>
+      {leaf.isCaret ? <CaretLeaf {...leaf} /> : null}
+      {children}
+    </span>
+  );
 };

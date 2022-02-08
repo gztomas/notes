@@ -1,3 +1,5 @@
+import { AutomergeEditor } from "@slate-collaborative/client/lib/automerge-editor";
+import { WithSocketIOEditor } from "@slate-collaborative/client/lib/withSocketIO";
 import { BaseEditor, BaseElement, BaseText } from "slate";
 import { HistoryEditor } from "slate-history";
 import { ReactEditor } from "slate-react";
@@ -45,6 +47,11 @@ export interface CustomText extends BaseText {
   code?: boolean;
   italic?: boolean;
   underline?: boolean;
+  isCaret?: boolean;
+  alphaColor: string;
+  name: string;
+  color: string;
+  isForward: boolean;
 }
 
 export type MarkType = keyof Omit<CustomText, "text">;
@@ -53,7 +60,11 @@ export type MarkType = keyof Omit<CustomText, "text">;
 // https://docs.slatejs.org/concepts/12-typescript
 declare module "slate" {
   interface CustomTypes {
-    Editor: BaseEditor & ReactEditor & HistoryEditor;
+    Editor: BaseEditor &
+      ReactEditor &
+      HistoryEditor &
+      WithSocketIOEditor &
+      AutomergeEditor;
     Element: CustomElement;
     Text: CustomText;
   }

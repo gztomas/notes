@@ -16,9 +16,9 @@ interface NotesListProps {
 }
 
 export const NotesList = ({ activeNoteId }: NotesListProps) => {
-  const { notesList } = useNotesList();
-  const router = useRouter();
   const deleteNote = useDeleteNote();
+  const notesList = useNotesList();
+  const router = useRouter();
 
   return (
     <List>
@@ -27,8 +27,8 @@ export const NotesList = ({ activeNoteId }: NotesListProps) => {
           disablePadding
           key={id}
           secondaryAction={
-            <IconButton size="small" edge="end">
-              <Delete fontSize="small" onClick={() => deleteNote(id)} />
+            <IconButton size="small" edge="end" onClick={() => deleteNote(id)}>
+              <Delete fontSize="small" />
             </IconButton>
           }
         >

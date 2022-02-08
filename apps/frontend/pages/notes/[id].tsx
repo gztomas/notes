@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Interface } from "../../src/layout";
+import "regenerator-runtime/runtime.js";
+import { Layout } from "../../src/layout";
 import { Note } from "../../src/notes/Note";
 
 const Home: NextPage = () => {
@@ -15,9 +16,9 @@ const Home: NextPage = () => {
         <title>Editor Project</title>
       </Head>
 
-      <Interface activeNoteId={noteId}>
+      <Layout activeNoteId={noteId}>
         {noteId ? <Note id={noteId} key={noteId} /> : null}
-      </Interface>
+      </Layout>
     </>
   );
 };

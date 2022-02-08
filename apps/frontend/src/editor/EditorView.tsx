@@ -1,7 +1,8 @@
 // @refresh reset // Fixes hot refresh errors in development https://github.com/ianstormtaylor/slate/issues/3477
 
 import { Box } from "@mui/material";
-import { useState } from "react";
+import { useCursor } from "@slate-collaborative/client";
+import { useEffect, useState } from "react";
 import { Descendant } from "slate";
 import { Editable, Slate } from "slate-react";
 import { createEditor } from "./createEditor";
@@ -10,17 +11,31 @@ import { renderElement } from "./renderElement";
 import { renderLeaf } from "./renderLeaf";
 
 interface EditorViewProps {
-  header: React.ReactNode;
+  renderHeader: (
+    cursors: ReturnType<typeof useCursor>["cursors"]
+  ) => React.ReactNode;
   onChange: (value: Descendant[]) => void;
   value: Descendant[];
+  docId: string;
 }
 
-export const EditorView = ({ value, onChange, header }: EditorViewProps) => {
-  const [editor] = useState(createEditor);
+export const EditorView = ({
+  value,
+  onChange,
+  renderHeader,
+  docId,
+}: EditorViewProps) => {
+  const [editor] = useState(() => createEditor(docId));
+  const { decorate, cursors } = useCursor(editor);
+
+  useEffect(() => {
+    editor.connect();
+    return editor.destroy;
+  }, []);
 
   return (
     <Slate editor={editor} value={value} onChange={onChange}>
-      {header}
+      {renderHeader(cursors)}
       <Box
         sx={{
           flexGrow: 1,
@@ -37,6 +52,7 @@ export const EditorView = ({ value, onChange, header }: EditorViewProps) => {
         }}
       >
         <Editable
+          decorate={decorate}
           placeholder="Write something down"
           autoFocus
           renderElement={renderElement}

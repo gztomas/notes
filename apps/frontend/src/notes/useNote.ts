@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 import { Descendant } from "slate";
-import { useSWRConfig } from "swr";
 import { NoteResponse } from "../../../backend/routes/notes";
 
 export const useNote = (id: string) => {
   const { readyState, lastMessage, sendMessage } = useWebSocket(
-    `ws://localhost:3001/api/notes/${id}`
+    `ws://localhost:3001/api/notes/${id}`,
+    { retryOnError: true }
   );
-  const { mutate } = useSWRConfig();
-  const note = lastMessage && (JSON.parse(lastMessage.data) as NoteResponse);
+  const note: NoteResponse | null = lastMessage && JSON.parse(lastMessage.data);
 
   const updateNote = (newNote: Partial<NoteResponse>) => {
     sendMessage(JSON.stringify(newNote));
-    mutate("http://localhost:3001/api/notes");
   };
 
   const [title, setTitle] = useState(note?.title);
