@@ -6,6 +6,10 @@ import "./patchRouter";
 
 const router = express.Router();
 
+// These could be very well done from the FE by adding firestore there for the
+// current use case. However since this server was already setup, keeping
+// firestore connection only here and minimize what the FE knows about our db.
+
 const notesHandler: WebsocketRequestHandler = async (ws) => {
   db.collection("notes").onSnapshot((snapshot) => {
     const notes = snapshot.docs.map((doc) => ({

@@ -18,6 +18,8 @@ We follow the monorepo pattern:
 
 Since we are using npm overrides there is an strict check for npm and node version. Please use at least npm `8.3.0`.
 
+If you have an older npm version, please update with `npm install -g npm@latest`
+
 A firebase project service account key would be needed, it can be obtained from either an existing or new firebase project at `https://console.firebase.google.com/project/${projectName}/settings/serviceaccounts/adminsdk` and clicking "Generate new private key".
 Save the json file at `apps/backend/serviceAccountKey.json`.
 
