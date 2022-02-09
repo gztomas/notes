@@ -45,7 +45,7 @@ Each app has a `check` script that runs the linting and typechecking. Run it in 
 
 This project is lacking many things due to time constraints. These are some nice to have additions:
 
-- A more consistent theming solution, avoiding sx custom styles as much as possible.
+- Fix tests in CI by providing the serviceAccountKey.json config there
 - Setup a production build and production note service, CI to deploy backend and frontend.
 - Add better error handling. Other than the connection state indicator, the FE isn't really doing anything right now when things fail.
 - Remove dependency with `cudr/slate-collaborative` and use the much better maintained `automerge` directly.
@@ -53,4 +53,5 @@ This project is lacking many things due to time constraints. These are some nice
 - Better tests by adding page objects.
 - Explore yjs that seems more performat that automerge.
 - Store operations history in firestore so the backend can be horizontally scaled.
+- A more consistent theming solution, avoiding sx custom styles as much as possible.
 - Better link insertion with popover at cursor using decorators.
