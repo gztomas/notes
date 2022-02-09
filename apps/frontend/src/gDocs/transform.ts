@@ -1,6 +1,6 @@
 import { SlateContent } from "../editor/types";
 
-export const isHTMLElement = (node: Node): node is HTMLElement =>
+const isHTMLElement = (node: Node): node is HTMLElement =>
   node.nodeType === Node.ELEMENT_NODE;
 
 /**

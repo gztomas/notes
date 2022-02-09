@@ -7,9 +7,7 @@ interface LinkPopoverProps extends Omit<PopoverProps, "open"> {
 /**
  * Displays a form that gets user input for link insertion
  */
-export const LinkPopover = (props: LinkPopoverProps) => {
-  const { anchorEl, onInsert } = props;
-
+export const LinkPopover = ({ onInsert, ...props }: LinkPopoverProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -22,7 +20,7 @@ export const LinkPopover = (props: LinkPopoverProps) => {
 
   return (
     <Popover
-      open={Boolean(anchorEl)}
+      open={Boolean(props.anchorEl)}
       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       transformOrigin={{ vertical: "top", horizontal: "center" }}
       {...props}

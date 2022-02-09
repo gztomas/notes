@@ -1,17 +1,3 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import { Layout } from "../src/layout";
+import NotePage from "./notes/[id]";
 
-const Home: NextPage = () => {
-  return (
-    <>
-      <Head>
-        <title>Editor Project</title>
-      </Head>
-
-      <Layout />
-    </>
-  );
-};
-
-export default Home;
+export default NotePage;

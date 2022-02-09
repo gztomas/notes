@@ -13,6 +13,15 @@ export const theme = createTheme({
         disableRipple: true,
       },
     },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          "&&&": {
+            textTransform: "none",
+          },
+        },
+      },
+    },
     MuiTextField: {
       defaultProps: {
         size: "small",
@@ -30,6 +39,19 @@ export const theme = createTheme({
         },
       },
     },
+    MuiDrawer: {
+      styleOverrides: {
+        root: { "&&&": { width: 240, flexShrink: 0 } },
+        paper: {
+          "&&&": {
+            width: 240,
+            boxSizing: "border-box",
+            backgroundColor: "#F7F6F3",
+          },
+        },
+      },
+    },
+    MuiListItemIcon: {},
   },
   typography: {
     fontFamily: [

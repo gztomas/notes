@@ -6,42 +6,56 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Tooltip,
 } from "@mui/material";
-import { useNotesList } from "./useNotesList";
+import { NoteData } from "./types";
 
 interface NotesListProps {
+  notes: NoteData[];
   activeNoteId?: string;
+  onOpenNote: (id: string) => void;
+  onDeleteNote: (id: string) => void;
 }
 
-export const NotesList = ({ activeNoteId }: NotesListProps) => {
-  const { notes, openNote, deleteNote } = useNotesList();
-  return (
-    <List>
-      {notes?.map(({ id, title }) => (
-        <ListItem
-          disablePadding
-          key={id}
-          secondaryAction={
-            <IconButton size="small" edge="end" onClick={() => deleteNote(id)}>
+export const NotesList = ({
+  notes,
+  activeNoteId,
+  onOpenNote,
+  onDeleteNote,
+}: NotesListProps) => (
+  <List data-test="notes-list">
+    {notes?.map(({ id, title }) => (
+      <ListItem
+        data-test="note-item"
+        disablePadding
+        key={id}
+        secondaryAction={
+          <Tooltip title="Delete" placement="right">
+            <IconButton
+              size="small"
+              edge="end"
+              onClick={() => onDeleteNote(id)}
+              data-test="delete-note"
+            >
               <Delete fontSize="small" />
             </IconButton>
-          }
+          </Tooltip>
+        }
+      >
+        <ListItemButton
+          dense
+          selected={id === activeNoteId}
+          onClick={() => onOpenNote(id)}
         >
-          <ListItemButton
-            dense
-            selected={id === activeNoteId}
-            onClick={() => openNote(id)}
-          >
-            <ListItemIcon>
-              <AssignmentIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText
-              primary={title ? title : "Untitled note"}
-              sx={title ? undefined : { color: "gray" }}
-            />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
-  );
-};
+          <ListItemIcon>
+            <AssignmentIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText
+            primary={title ? title : "Untitled note"}
+            sx={title ? undefined : { color: "gray" }}
+          />
+        </ListItemButton>
+      </ListItem>
+    ))}
+  </List>
+);
