@@ -1,8 +1,8 @@
 import cors from "cors";
 import express from "express";
 import expressWs from "express-ws";
-import apiRoutes from "./routes";
-import { startCollaborationServer } from "./routes/collaboration";
+import apiRoutes from "./notes";
+import { startCollaborationServer } from "./collaboration";
 
 const app = express();
 const PORT = 3001;
